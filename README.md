@@ -17,6 +17,36 @@ Download this repository and open **index.html** in a modern browser with WebGL 
 
 The former world photo/snapshot and collage exporter has been removed.
 
+## Normalised terrain mixer
+
+Open **Terrain mixer** at the top right, then choose a batch seed and either two,
+three, or a random number of source tiles. Ten candidates appear progressively;
+select any finished tile to inspect it in the shared 3D view. Drag to turn,
+scroll or pinch to zoom, or use the view buttons. Arrow keys rotate the focused
+3D view and plus/minus zoom.
+
+The mixer samples local height grids from the same landform functions used by
+the planet's 27 terrain families and six designs per family. It does not build
+whole donor planets or simulate their climate, water, thermal districts or
+materials. Each input is scaled independently to `[-1, 1]`, then combined with
+seeded signed weights and multiplication terms. The final grid is normalised
+again. Rotations, offsets, variants and seeds are retained in the recipe.
+
+Generation starts only when requested. A background worker streams ten 65 × 65
+height grids; a single 3D canvas renders only the selected terrain, on demand.
+The flight view pauses rendering while the mixer is open. Browsers that block
+workers use a fallback that yields between tiles. Closing or cancelling stops
+the batch. The mixer remains self-contained and adds no dependencies.
+
+Use **Keep favourite** to retain up to 24 recipes in this browser. **Save recipe**
+and **Open mix recipe** reproduce a terrain across sessions or devices. Exports
+include a greyscale PNG, full precision JSON height data, and a coloured GLB
+terrain patch. The height-range slider applies to the 3D view and the JSON/GLB
+exports. Patches span 16 km; PNGs encode the normalised heights as 8-bit greyscale.
+The mixer is a separate tile experiment; it does not replace the current planet.
+
+Run the mixer checks with `node --test tests/terrain-mixer.test.cjs`.
+
 ## Controls
 
 | Control | Action |
@@ -51,3 +81,4 @@ These are cropped from the supplied gameplay screenshots. Phone, browser and cha
 ## License
 
 [MIT](LICENSE) — Copyright (c) 2026 Rick3y (rickey1990).
+
